@@ -1,0 +1,122 @@
+<%-include('../partials/header.ejs')%>
+<main class="mt-5">
+<div class="container">
+  <div class="form-group pull-right">
+
+    <input type="text" class="search form-control" placeholder="What you looking for?" name="search" id="searchInput">
+
+    <div>
+      <a type="button" href="/admin/createuser"  class="btn btn-success mt-3 ps-5 pe-5">Create new user</a>
+      <a href="/admin/logout" class="btn btn-danger mt-3">Logout</a>
+    </div>
+  </div>
+ 
+</div>
+<div class="container">
+
+  
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="main-box clearfix">
+          <div class="table-responsive">
+            <table class="table user-list" id="userTable">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th><span class="ms-5">User</span></th>
+                  <th><span class="ms-5">Email</span></th>
+                  <th><span class="ms-5">Edit</span></th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+             
+                <% allUsers.forEach((user,index)=>{%>
+
+               
+                    <tr>
+                      <td>
+                        <p class="user-link mt-4"><%=index+1%></p>
+                      </td>
+                      <td>
+                        <p class="user-link mt-4"><%=user.Name%></p>
+                      </td>
+                      <td>
+                        <p class="user-link mt-4"><%=user.Email%></p>
+                      </td>
+                      <td style="width: 20%">
+                        <a href="/admin/updateuser/<%=user._id%>" class="table-link">
+                          <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                          </span>
+                        </a>
+                        <a href="/admin/deleteuser/<%=user._id%>" onclick="return confirm('Do you want to delete data.Name ?')" class="table-link danger">
+                          <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                          </span>
+                        </a>
+                      </td>
+                    </tr>
+              
+                
+                    <%})%>
+              
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="modal fade" id="userCreatedModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User Created</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Modal content goes here -->
+                <p>Congratulations! The user has been created.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+
+  <%-include('../partials/footer.ejs')%>
+</main>
+  <script>
+
+  
+    document.addEventListener('DOMContentLoaded', function () {
+      let searchInput=document.getElementById('searchInput');
+  
+      searchInput.addEventListener('keyup', function () {
+        let searchTerm=searchInput.value.toLowerCase();
+        let tableRows=document.querySelectorAll('#userTable tbody tr');
+  
+        tableRows.forEach(function (row) {
+          let nameColumn=row.querySelector('td:nth-child(2) '); // Adjust the index based on your table structure
+  
+          if (nameColumn) {
+            let nameText=nameColumn.textContent.toLowerCase();
+            row.style.display=nameText.includes(searchTerm) ? '' : 'none';
+          }
+        });
+      });
+    });
+  
+  
+  
+  
+  </script>

@@ -1,0 +1,91 @@
+<%- include('../partials/header.ejs') %>
+
+<style>
+  /* Your existing styles */
+  .gradient-custom-3 {
+    background: #84fab0;
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+  }
+  .gradient-custom-4 {
+    background: #84fab0;
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+  }
+</style>
+
+<section class="vh-100 bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+  <div class="text-center center-div" id="login">
+    <div class="container w-25 border py-5">
+      <div class="title pb-5">
+        <h2 class="font-weight-bold">Login</h2>
+      </div>
+      <form id="loginForm" action="/loginSubmit" method="post">
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="email" name="email" required>
+          <small class="form-text text-muted text-left">Login email address</small>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" name="password" placeholder="password" required>
+        </div>
+        <button type="submit" class="btn btn-success rounded-pill">Submit</button>
+        <% if (success || failure) { %>
+          <p class="text-success"><%= success %></p>
+          <p class="text-danger"><%= failure %></p>
+        <% } %>
+
+        <p class="text-center text-muted mt-5 mb-0">Create a new account <a href="/register"
+          class="fw-bold text-body"><u>Register here</u></a></p>
+      </form>
+      <div id="messages" class="mt-3"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const email = document.querySelector('[name="email"]').value;
+    const password = document.querySelector('[name="password"]').value;
+
+    // Client-side validation
+    if (!validateEmail(email)) {
+      showMessage('Invalid email address', 'danger');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      showMessage('Weak password. Must contain at least one digit, one uppercase and lowercase letter, and at least 6 or more characters', 'danger');
+      return;
+    }
+
+    // If validation passes, you can submit the form or perform other actions
+    this.submit();
+  });
+
+  // Helper functions
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function validatePassword(password) {
+    // Your password strength validation logic
+    // For simplicity, assuming a minimum length of 8 characters here
+    return password.length >= 6;
+  }
+
+  function showMessage(message, type) {
+    const messagesDiv = document.getElementById('messages');
+    messagesDiv.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+  }
+</script>
+
+<%- include('../partials/footer.ejs') %>
+
+
+
+
+
+
+

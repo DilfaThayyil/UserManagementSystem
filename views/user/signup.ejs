@@ -1,0 +1,135 @@
+<%- include('../partials/header.ejs') %>
+
+<style>
+  /* Your existing styles */
+  .gradient-custom-3 {
+    background: #84fab0;
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+  }
+  .gradient-custom-4 {
+    background: #84fab0;
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+  }
+</style>
+
+<section class="vh-100 bg-image"
+  style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+              <form id="registerForm" action="/registerSubmit" method="post">
+
+                <div class="form-outline mb-4">
+                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="username" required />
+                  <label class="form-label" for="form3Example1cg">Your Name</label>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" required />
+                  <label class="form-label" for="form3Example3cg">Your Email</label>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input type="password" id="passwordInput" class="form-control form-control-lg" name="password" required />
+                  <label class="form-label" for="passwordInput">Password</label>
+               
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input type="password" id="form3Example4cdg" class="form-control form-control-lg" name="confirmPassword" required />
+                  <label class="form-label" for="form3Example4cdg">Repeat your password</label>
+                </div>
+                <input type="checkbox" id="showPassword"> Show Password
+                <div class="d-flex justify-content-center">
+                  <button type="submit"
+                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                </div>
+
+                <p class="text-danger"><%=failer%></p>
+
+                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/login"
+                    class="fw-bold text-body"><u>Login here</u></a></p>
+
+              </form>
+              <div id="messages" class="mt-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const passwordInput = document.getElementById('passwordInput');
+  const password2=document.getElementById('form3Example4cdg')
+  const showPasswordCheckbox = document.getElementById('showPassword');
+
+  showPasswordCheckbox.addEventListener('change', function () {
+    passwordInput.type = this.checked ? 'text' : 'password';
+    password2.type=this.checked ? 'text' : 'password';
+  });
+
+  document.getElementById('registerForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const username = document.querySelector('[name="username"]').value;
+    const email = document.querySelector('[name="email"]').value;
+    const password = passwordInput.value;
+    const confirmPassword = document.querySelector('[name="confirmPassword"]').value;
+
+    // Client-side validation
+    if (!validateUsername(username)) {
+      showMessage('Invalid username', 'danger');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      showMessage('Invalid email address', 'danger');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      showMessage('Weak password. Must contain at least one digit, one uppercase and lowercase letter, and at least 8 or more characters', 'danger');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showMessage('Passwords do not match', 'danger');
+      return;
+    }
+
+    // If validation passes, you can submit the form or perform other actions
+    this.submit();
+  });
+
+  // Helper functions
+  function validateUsername(username) {
+    // Your username validation logic
+    return username.length > 0;
+  }
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function validatePassword(password) {
+    // Your password strength validation logic
+    // For simplicity, assuming a minimum length of 8 characters here
+    return password.length >= 8;
+  }
+
+  function showMessage(message, type) {
+    const messagesDiv = document.getElementById('messages');
+    messagesDiv.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+  }
+</script>
+
+<%- include('../partials/footer.ejs') %>

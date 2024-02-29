@@ -1,0 +1,23 @@
+<%-include('../partials/header.ejs')%>
+<style>
+body{
+    background-color:rgb(176, 212, 233);
+}
+
+</style>
+
+<div class="container mt-5 ">
+
+<div class="text-center" >
+<div class="alert alert-info" role="alert" style="height: 200px;">
+  <h4 class="alert-heading">Welcome back  <%=user.Name%></h4>
+  <p>Thank you for returning!</p>
+  <a href="/logout" class="btn btn-danger">Logout</a>
+</div>
+</div>
+</div>
+
+
+
+
+<%-include('../partials/footer.ejs')%>
